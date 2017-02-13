@@ -1,31 +1,31 @@
-module.exports = {
+const nodeExternals = require('webpack-node-externals')
+
+const config = {
   entry: ["./src/index.js"],
   output: {
     filename: "../bundle.js"
   },
+  externals: [ nodeExternals() ], // in order to ignore all modules in node_modules folder
   module: {
-    /*
-   preLoaders: [
-     {
-       test: /\.js$/,
-       exclude: /node_modules/,
-       loader: 'jshint-loader'
-     }
-  ], */
-  loaders: [
-    {
-      test: [/\.jsx?$/,/\.es6$/],
-      exclude: /node_modules/,
-      loader: 'babel-loader',
-      // query: {
-      //   presets: ['react', 'es2015']
-      // }
-    }
-  ]
+    rules: [
+      // {
+      //   enforce: 'pre',
+      //   test: /\.js$/,
+      //   exclude: [/node_modules/, /^\.tmp$/],
+      //   loader: 'jshint-loader'
+      // },
+      {
+        test: [/\.jsx?$/,/\.es6$/],
+        loader: 'babel-loader',
+        // query: {
+        //   presets: ['react', 'es2015']
+        // }
+      }
+    ]
   },
   devtool: '#source-map',
   resolve: {
-    extensions: ['', '.js', '.es6', 'jsx']
+    extensions: ['.js', '.jsx']
   },
   plugins: [
     function() {
@@ -35,5 +35,7 @@ module.exports = {
       })
     }
   ],
-  watch: true
+  // watch: true
 }
+
+module.exports = config
